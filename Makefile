@@ -12,7 +12,7 @@ CFLAGS += -Wshadow
 CFLAGS += -pedantic
 CFLAGS += -std=c99
 
-OBJS += src/huron.c
+OBJS += src/huron.o
 PROG := huron
 
 E := @echo
