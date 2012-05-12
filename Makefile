@@ -17,8 +17,13 @@ OBJS += src/huron.o
 OBJS += src/object.o
 PROG := huron
 
-E := @echo
-Q := @
+ifeq ($(strip $(V)),)
+	E := @echo
+	Q := @
+else
+	E := @\#
+	Q :=
+endif
 
 all: $(PROG)
 .PHONY: all
