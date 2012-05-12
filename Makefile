@@ -31,7 +31,6 @@ all: $(PROG)
 clean:
 	$(E) "  CLEAN    "
 	$(Q) rm -f $(OBJS) $(PROG)
-	$(Q) find . -name *.tmp | xargs rm -fr
 .PHONY: clean
 
 install: $(PROG)
