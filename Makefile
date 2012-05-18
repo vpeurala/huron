@@ -12,6 +12,8 @@ CFLAGS += -Wextra
 CFLAGS += -Wshadow
 CFLAGS += -std=c99
 
+LDFLAGS += -lreadline
+
 OBJS += src/gc.o
 OBJS += src/huron.o
 OBJS += src/object.o

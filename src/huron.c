@@ -1,8 +1,9 @@
 #include "huron/object.h"
 #include "huron/gc.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <readline/readline.h>
+#include <stdlib.h>
 
 static void die(const char *s)
 {
@@ -10,11 +11,9 @@ static void die(const char *s)
 	exit(1);
 }
 
-int main(void)
+static void gc_torture(void)
 {
 	int i;
-
-	huron_gc_init();
 
 	for (i = 0; i < 10000; i++) {
 		void *p;
@@ -23,6 +22,26 @@ int main(void)
 		if (!p)
 			die("out of memory");
 	}
+}
+
+int main(void)
+{
+	huron_gc_init();
+
+	puts("Huron, version 0.1");
+
+	for (;;) {
+		const char *line;
+
+		line = readline("> ");
+		if (!line)
+			break;
+
+		if (!strncmp(line, ":gc-torture", strlen(":gc-torture")))
+			gc_torture();
+	}
+
+	printf("\nLeaving Huron.\n");
 
 	return 0;
 }
