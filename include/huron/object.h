@@ -27,7 +27,7 @@ struct huron_object {
 	union {
 		struct huron_atom	atom;
 		struct huron_cons	cons;
-	};
+	} value;
 	unsigned long			padding;
 };
 
