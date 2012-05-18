@@ -4,15 +4,17 @@ LD := $(CC)
 PREFIX ?= /usr/local
 
 CFLAGS += -g
+CFLAGS += -Iinclude
 CFLAGS += -Isrc
 CFLAGS += -O3
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Wshadow
-CFLAGS += -pedantic
 CFLAGS += -std=c99
 
+OBJS += src/gc.o
 OBJS += src/huron.o
+OBJS += src/object.o
 PROG := huron
 
 E := @echo
