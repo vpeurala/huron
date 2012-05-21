@@ -129,7 +129,7 @@ bool huron_gc_collect(void)
 {
 	unsigned long idx, nr = 0;
 
-	memset(gc_inuse_list, 0, GC_BITMAP_SIZE);
+	memset(gc_inuse_list, 0, GC_BITMAP_BYTES);
 
 	for_each_zero_bit(idx, gc_inuse_list, GC_BITMAP_SIZE) {
 		obj_mark_unused(idx + 1);
@@ -162,5 +162,5 @@ retry:
 
 void huron_gc_init(void)
 {
-	memset(gc_freelist, 0xff, GC_BITMAP_SIZE);
+	memset(gc_freelist, 0xff, GC_BITMAP_BYTES);
 }
