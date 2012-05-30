@@ -1,8 +1,11 @@
 #include "huron/object.h"
+#include "huron/eval.h"
 #include "huron/gc.h"
 
 #include <stdio.h>
 #include <readline/readline.h>
+
+#include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -25,6 +28,19 @@ static void gc_torture(void)
 	}
 }
 
+static void print(struct huron_object *obj)
+{
+	if (!obj) {
+		puts("nil");
+		return;
+	}
+	switch (obj->type) {
+	case HURON_OBJECT_NUMBER:
+		printf("%" PRId64 "\n", obj->value.number);
+		break;
+	}
+}
+
 int main(void)
 {
 	huron_gc_init();
@@ -32,14 +48,24 @@ int main(void)
 	puts("Huron, version 0.1");
 
 	for (;;) {
+		struct huron_object *result;
 		const char *line;
 
 		line = readline("> ");
 		if (!line)
 			break;
 
-		if (!strncmp(line, ":gc-torture", strlen(":gc-torture")))
+		if (strlen(line) == 0)
+			continue;
+
+		if (!strncmp(line, ":gc-torture", strlen(":gc-torture"))) {
 			gc_torture();
+			continue;
+		}
+
+		result = huron_eval(line);
+
+		print(result);
 	}
 
 	printf("\nLeaving Huron.\n");
