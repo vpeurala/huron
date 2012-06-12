@@ -1,6 +1,8 @@
 #ifndef HURON_OBJECT_H
 #define HURON_OBJECT_H
 
+#include <stdint.h>
+
 /*
  * Atoms
  */
@@ -20,6 +22,7 @@ struct huron_cons {
 enum huron_object_type {
 	HURON_OBJECT_ATOM,
 	HURON_OBJECT_CONS,
+	HURON_OBJECT_NUMBER,
 };
 
 struct huron_object {
@@ -27,6 +30,7 @@ struct huron_object {
 	union {
 		struct huron_atom	atom;
 		struct huron_cons	cons;
+		int64_t			number;
 	} value;
 	unsigned long			padding;
 };

@@ -14,6 +14,7 @@ CFLAGS += -std=c99
 
 LDFLAGS += -lreadline
 
+OBJS += src/eval.o
 OBJS += src/gc.o
 OBJS += src/huron.o
 OBJS += src/object.o
