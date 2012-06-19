@@ -1,5 +1,6 @@
 #include "huron/object.h"
 #include "huron/eval.h"
+#include "huron/jit.h"
 #include "huron/gc.h"
 
 #include <stdio.h>
@@ -8,6 +9,10 @@
 #include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
+int huron_debug;
+int huron_jit;
 
 static void die(const char *s)
 {
@@ -41,8 +46,29 @@ static void print(struct huron_object *obj)
 	}
 }
 
-int main(void)
+static void parse_args(int argc, char *argv[])
 {
+	int c;
+
+	while ((c = getopt(argc, argv, "dj")) != -1) {
+		switch (c) {
+		case 'd':
+			huron_debug	= 1;
+			break;
+		case 'j':
+			huron_jit	= 1;
+			break;
+		}
+	}
+}
+
+int main(int argc, char *argv[])
+{
+	parse_args(argc, argv);
+
+	if (huron_jit)
+		huron_jit_init();
+
 	huron_gc_init();
 
 	puts("Huron, version 0.1");
@@ -63,7 +89,17 @@ int main(void)
 			continue;
 		}
 
-		result = huron_eval(line);
+		if (huron_jit) {
+			struct huron_function *function;
+
+			function = huron_function_compile(line);
+
+			result = huron_function_call(function);
+
+			huron_function_delete(function);
+		} else {
+			result = huron_eval(line);
+		}
 
 		print(result);
 	}
