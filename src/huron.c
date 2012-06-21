@@ -83,6 +83,8 @@ int main(int argc, char *argv[])
 		if (strlen(line) == 0)
 			continue;
 
+		linenoiseHistoryAdd(line);
+
 		if (!strncmp(line, ":gc-torture", strlen(":gc-torture"))) {
 			gc_torture();
 			continue;
