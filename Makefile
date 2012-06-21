@@ -8,6 +8,7 @@ LLVM_LIBS := $(shell llvm-config --libs)
 LLVM_LDFLAGS := $(shell llvm-config --ldflags)
 
 CFLAGS += -g
+CFLAGS += -Ideps/linenoise
 CFLAGS += -Iinclude
 CFLAGS += -Isrc
 CFLAGS += -O3
@@ -19,11 +20,11 @@ CFLAGS += -D_GNU_SOURCE=1
 CFLAGS += $(LLVM_CFLAGS)
 
 LDFLAGS += -lstdc++
-LDFLAGS += -lreadline
 LDFLAGS += $(LLVM_LDFLAGS)
 
 LIBS += $(LLVM_LIBS)
 
+OBJS += deps/linenoise/linenoise.o
 OBJS += src/eval.o
 OBJS += src/gc.o
 OBJS += src/huron.o

@@ -3,10 +3,9 @@
 #include "huron/jit.h"
 #include "huron/gc.h"
 
-#include <stdio.h>
-#include <readline/readline.h>
-
 #include <inttypes.h>
+#include <linenoise.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -77,7 +76,7 @@ int main(int argc, char *argv[])
 		struct huron_object *result;
 		const char *line;
 
-		line = readline("> ");
+		line = linenoise("> ");
 		if (!line)
 			break;
 
