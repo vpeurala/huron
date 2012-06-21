@@ -14,6 +14,7 @@
 
 #define KB(n)		(1024UL * n)
 
+#define BITS_PER_BYTE	8
 #define BITS_PER_LONG	(sizeof(unsigned long) * 8)
 
 /*
@@ -27,7 +28,7 @@ static char		gc_heap[HEAP_SIZE];
 
 #define			GC_BITMAP_BYTES (HEAP_SIZE / GC_OBJ_SIZE)
 
-#define			GC_BITMAP_SIZE (GC_BITMAP_BYTES / BITS_PER_LONG)
+#define			GC_BITMAP_SIZE (BITS_PER_BYTE * GC_BITMAP_BYTES / BITS_PER_LONG)
 
 static unsigned long	gc_freelist[GC_BITMAP_SIZE];
 
