@@ -1,7 +1,11 @@
 CC ?= gcc
-LD := $(CC)
+LD := g++
 
 PREFIX ?= /usr/local
+
+LLVM_CFLAGS := $(shell llvm-config --cflags | sed -e "s/-DNDEBUG//g")
+LLVM_LIBS := $(shell llvm-config --libs)
+LLVM_LDFLAGS := $(shell llvm-config --ldflags)
 
 CFLAGS += -g
 CFLAGS += -Iinclude
@@ -11,12 +15,18 @@ CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -Wshadow
 CFLAGS += -std=c99
+CFLAGS += -D_GNU_SOURCE=1
+CFLAGS += $(LLVM_CFLAGS)
 
 LDFLAGS += -lreadline
+LDFLAGS += $(LLVM_LDFLAGS)
+
+LIBS += $(LLVM_LIBS)
 
 OBJS += src/eval.o
 OBJS += src/gc.o
 OBJS += src/huron.o
+OBJS += src/llvm.o
 OBJS += src/object.o
 PROG := huron
 
@@ -43,7 +53,7 @@ install: $(PROG)
 
 $(PROG): $(OBJS)
 	$(E) "  LINK     " $@
-	$(Q) $(LD) $(LDFLAGS) -o $@ $^
+	$(Q) $(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 %.o: %.c
 	$(E) "  COMPILE  " $@

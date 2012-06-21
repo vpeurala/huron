@@ -2,7 +2,6 @@
 
 #include "huron/object.h"
 
-#define _GNU_SOURCE
 #include <strings.h>	/* for ffsl() */
 
 #include <stdbool.h>
