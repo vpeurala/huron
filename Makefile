@@ -1,5 +1,5 @@
 CC ?= gcc
-LD := g++
+LD := $(CC)
 
 PREFIX ?= /usr/local
 
@@ -18,6 +18,7 @@ CFLAGS += -std=c99
 CFLAGS += -D_GNU_SOURCE=1
 CFLAGS += $(LLVM_CFLAGS)
 
+LDFLAGS += -lstdc++
 LDFLAGS += -lreadline
 LDFLAGS += $(LLVM_LDFLAGS)
 
