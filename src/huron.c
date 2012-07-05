@@ -1,5 +1,6 @@
 #include "huron/object.h"
 #include "huron/eval.h"
+#include "huron/expr.h"
 #include "huron/jit.h"
 #include "huron/gc.h"
 
@@ -75,6 +76,7 @@ int main(int argc, char *argv[])
 
 	for (;;) {
 		struct huron_object *result;
+		struct huron_object *expr;
 		const char *line;
 
 		line = readline("> ");
@@ -89,16 +91,18 @@ int main(int argc, char *argv[])
 			continue;
 		}
 
+		expr = huron_parse(line);
+
 		if (huron_jit) {
 			struct huron_function *function;
 
-			function = huron_function_compile(line);
+			function = huron_function_compile(expr);
 
 			result = huron_function_call(function);
 
 			huron_function_delete(function);
 		} else {
-			result = huron_eval(line);
+			result = huron_eval(expr);
 		}
 
 		print(result);
