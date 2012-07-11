@@ -12,15 +12,10 @@
 
 extern int huron_debug;
 
-struct huron_function *huron_function_compile(const char *s)
+struct huron_function *huron_function_compile(struct huron_object *expr)
 {
 	struct huron_function *f;
-	LLVMValueRef alloc_func;
-	LLVMTypeRef return_type;
-	unsigned long value;
 	char *error = NULL;
-
-	value = strtoll(s, NULL, 10);
 
 	f = calloc(1, sizeof *f);
 	if (!f)
@@ -35,21 +30,18 @@ struct huron_function *huron_function_compile(const char *s)
 		return NULL;
 	}
 
-	return_type = LLVMPointerType(LLVMInt8Type(), 0);
+	LLVMTypeRef return_type = LLVMPointerType(LLVMInt8Type(), 0);
 
 	f->func = LLVMAddFunction(f->module, "function", LLVMFunctionType(return_type, NULL, 0, 0));
 
 	LLVMSetFunctionCallConv(f->func, LLVMCCallConv);
 
-	LLVMTypeRef alloc_arg_types[] = { LLVMInt64Type() };
-	alloc_func = LLVMAddFunction(f->module, "huron_number_new", LLVMFunctionType(LLVMPointerType(LLVMInt8Type(), 0), alloc_arg_types, 1, 0));
-	LLVMAddGlobalMapping(f->engine, alloc_func, huron_number_new);
-
 	LLVMBuilderRef builder = LLVMCreateBuilder();
 	LLVMBasicBlockRef end = LLVMAppendBasicBlock(f->func, "end");
 	LLVMPositionBuilderAtEnd(builder, end);
-	LLVMValueRef alloc_args[] = { LLVMConstInt(LLVMInt64Type(), value, 0) };
-	LLVMValueRef res = LLVMBuildCall(builder, alloc_func, alloc_args, 1, "");
+	LLVMValueRef number = LLVMConstInt(LLVMInt64Type(), (unsigned long) expr, 1);
+	LLVMValueRef res = LLVMBuildIntToPtr(builder, number, LLVMPointerType(LLVMInt8Type(), 0), "");
+
 	LLVMBuildRet(builder, res);
 
 	LLVMPassManagerRef pass = LLVMCreatePassManager();

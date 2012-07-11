@@ -25,6 +25,7 @@ LDFLAGS += $(LLVM_LDFLAGS)
 LIBS += $(LLVM_LIBS)
 
 OBJS += src/eval.o
+OBJS += src/expr.o
 OBJS += src/gc.o
 OBJS += src/huron.o
 OBJS += src/llvm.o

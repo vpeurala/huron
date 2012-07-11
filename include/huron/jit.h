@@ -12,7 +12,7 @@ struct huron_function {
 	LLVMExecutionEngineRef		engine;
 };
 
-struct huron_function *huron_function_compile(const char *s);
+struct huron_function *huron_function_compile(struct huron_object *expr);
 
 struct huron_object *huron_function_call(struct huron_function *f);
 
