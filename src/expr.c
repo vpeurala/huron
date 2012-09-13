@@ -8,22 +8,22 @@
 
 static struct huron_object *huron_number_new(int64_t value)
 {
-	struct huron_object *obj;
+    struct huron_object *obj;
 
-	obj = huron_object_new(HURON_OBJECT_NUMBER);
-	if (!obj)
-		return NULL;
+    obj = huron_object_new(HURON_OBJECT_NUMBER);
+    if (!obj)
+        return NULL;
 
-	obj->value.number = value;
+    obj->value.number = value;
 
-	return obj;
+    return obj;
 }
 
 struct huron_object *huron_parse(const char *s)
 {
-	unsigned long value;
+    unsigned long value;
 
-	value = strtoll(s, NULL, 10);
+    value = strtoll(s, NULL, 10);
 
-	return huron_number_new(value);
+    return huron_number_new(value);
 }
