@@ -2,7 +2,7 @@
 
 #include "huron/object.h"
 
-#include <strings.h>    /* for ffsl() */
+#include <strings.h>     /* for ffsl() */
 
 #include <stdbool.h>
 #include <assert.h>
@@ -20,21 +20,21 @@
 /*
  * Heap size must be multiple of sizeof(unsigned long)
  */
-#define HEAP_SIZE      KB(2)
+#define HEAP_SIZE        KB(2)
 
-#define GC_OBJ_SIZE    sizeof(struct huron_object)
+#define GC_OBJ_SIZE      sizeof(struct huron_object)
 
-static char            gc_heap[HEAP_SIZE];
+static char              gc_heap[HEAP_SIZE];
 
-#define                GC_BITMAP_BYTES (HEAP_SIZE / GC_OBJ_SIZE)
+#define                  GC_BITMAP_BYTES (HEAP_SIZE / GC_OBJ_SIZE)
 
-#define                GC_BITMAP_SIZE (BITS_PER_BYTE * GC_BITMAP_BYTES / BITS_PER_LONG)
+#define                  GC_BITMAP_SIZE (BITS_PER_BYTE * GC_BITMAP_BYTES / BITS_PER_LONG)
 
-static unsigned long   gc_freelist[GC_BITMAP_SIZE];
+static unsigned long     gc_freelist[GC_BITMAP_SIZE];
 
-static unsigned long   gc_inuse_list[GC_BITMAP_SIZE];
+static unsigned long     gc_inuse_list[GC_BITMAP_SIZE];
 
-static bool            huron_verbose_gc = true;
+static bool              huron_verbose_gc = true;
 
 static inline unsigned long bit_mask(unsigned long bit)
 {
