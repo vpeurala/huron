@@ -7,7 +7,7 @@
  * Atoms
  */
 struct huron_atom {
-    char                *ident;
+    char                       *ident;
     struct huron_object        *value;
 };
 
@@ -30,7 +30,7 @@ struct huron_object {
     union {
         struct huron_atom    atom;
         struct huron_cons    cons;
-        int64_t            number;
+        int64_t              number;
     } value;
     unsigned long            padding;
 };

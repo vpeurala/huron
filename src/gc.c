@@ -12,7 +12,7 @@
 
 #define ARRAY_SIZE(x)    (sizeof(x) / sizeof((x)[0]))
 
-#define KB(n)        (1024UL * n)
+#define KB(n)            (1024UL * n)
 
 #define BITS_PER_BYTE    8
 #define BITS_PER_LONG    (sizeof(unsigned long) * 8)
@@ -20,21 +20,21 @@
 /*
  * Heap size must be multiple of sizeof(unsigned long)
  */
-#define HEAP_SIZE    KB(2)
+#define HEAP_SIZE      KB(2)
 
 #define GC_OBJ_SIZE    sizeof(struct huron_object)
 
-static char        gc_heap[HEAP_SIZE];
+static char            gc_heap[HEAP_SIZE];
 
-#define            GC_BITMAP_BYTES (HEAP_SIZE / GC_OBJ_SIZE)
+#define                GC_BITMAP_BYTES (HEAP_SIZE / GC_OBJ_SIZE)
 
-#define            GC_BITMAP_SIZE (BITS_PER_BYTE * GC_BITMAP_BYTES / BITS_PER_LONG)
+#define                GC_BITMAP_SIZE (BITS_PER_BYTE * GC_BITMAP_BYTES / BITS_PER_LONG)
 
-static unsigned long    gc_freelist[GC_BITMAP_SIZE];
+static unsigned long   gc_freelist[GC_BITMAP_SIZE];
 
-static unsigned long    gc_inuse_list[GC_BITMAP_SIZE];
+static unsigned long   gc_inuse_list[GC_BITMAP_SIZE];
 
-static bool        huron_verbose_gc = true;
+static bool            huron_verbose_gc = true;
 
 static inline unsigned long bit_mask(unsigned long bit)
 {
@@ -103,10 +103,10 @@ bitmap_find_next_zero(unsigned long *bitmap, size_t size, unsigned long start)
     return size * BITS_PER_LONG;
 }
 
-#define for_each_zero_bit(idx, bitmap, size)                \
-    for (idx = bitmap_find_next_zero(bitmap, size, 0);        \
-         idx < size * BITS_PER_LONG;                \
-         idx = bitmap_find_next_zero(bitmap, size, idx + 1))    \
+#define for_each_zero_bit(idx, bitmap, size)                 \
+    for (idx = bitmap_find_next_zero(bitmap, size, 0);       \
+         idx < size * BITS_PER_LONG;                         \
+         idx = bitmap_find_next_zero(bitmap, size, idx + 1)) \
 
 static inline void *obj_index_to_ptr(unsigned long idx)
 {

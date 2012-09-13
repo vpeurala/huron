@@ -8,8 +8,8 @@ struct huron_object;
 
 struct huron_function {
     LLVMValueRef            func;
-    LLVMModuleRef            module;
-    LLVMExecutionEngineRef        engine;
+    LLVMModuleRef           module;
+    LLVMExecutionEngineRef  engine;
 };
 
 struct huron_function *huron_function_compile(struct huron_object *expr);
