@@ -26,13 +26,13 @@ enum huron_object_type {
 };
 
 struct huron_object {
-    unsigned long            type;        /* see "enum huron_object_type" */
+    unsigned long              type;        /* see "enum huron_object_type" */
     union {
-        struct huron_atom    atom;
-        struct huron_cons    cons;
-        int64_t              number;
+        struct huron_atom      atom;
+        struct huron_cons      cons;
+        int64_t                number;
     } value;
-    unsigned long            padding;
+    unsigned long              padding;
 };
 
 struct huron_object *huron_object_new(enum huron_object_type type);
